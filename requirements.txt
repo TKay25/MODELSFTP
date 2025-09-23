@@ -11,4 +11,3 @@ openpyxl
 requests
 pdfkit
 weasyprint
-paynow
