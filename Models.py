@@ -34,9 +34,9 @@ app.secret_key = '011235'
 app.permanent_session_lifetime = timedelta(minutes=30)
 user_sessions = {}
 
-external_database_url = "postgresql://lmsdatabase_8ag3_user:6WD9lOnHkiU7utlUUjT88m4XgEYQMTLb@dpg-ctp9h0aj1k6c739h9di0-a.oregon-postgres.render.com/lmsdatabase_8ag3"
-database = 'lmsdatabase_8ag3'
+#external_database_url = "postgresql://lmsdatabase_8ag3_user:6WD9lOnHkiU7utlUUjT88m4XgEYQMTLb@dpg-ctp9h0aj1k6c739h9di0-a.oregon-postgres.render.com/lmsdatabase_8ag3"
+#database = 'lmsdatabase_8ag3'
 
-connection = psycopg2.connect(external_database_url)
+#connection = psycopg2.connect(external_database_url)
 
-cursor = connection.cursor()
+#cursor = connection.cursor()
