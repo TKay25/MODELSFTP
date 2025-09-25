@@ -168,10 +168,12 @@ def landingpage():
     print(zwg_df)
     print(zwg_df)
 
+    tenor_order = ["<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]
+
+
     zwg_df = zwg_df.set_index("tenor").T[tenor_order].reset_index()
     usd_df = usd_df.set_index("tenor").T[tenor_order].reset_index()
 
-    tenor_order = ["<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]
 
 
     print(zwg_df)
