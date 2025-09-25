@@ -56,7 +56,7 @@ try:
     # Create table if it doesn't exist
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS "ZWG FTP Yield Curve" (
-            Term VARCHAR(10) PRIMARY KEY,
+            Tenor VARCHAR(10) PRIMARY KEY,
             Normal_Curve_Bid_Rate NUMERIC,
             Normal_Curve_Liquidity_Premium NUMERIC,
             Normal_Curve_Offer_Rate NUMERIC,
