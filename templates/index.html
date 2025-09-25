@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pricing Model</title>
+  <style>
+    :root{
+      --bg:#f6f5f5;
+      --primary-2:#B90E0A; /* very dark red */
+      --primary:#D21404; /* dark red */
+      --dark:#9e1116; /* brighter */
+      --muted:#e9e6e6;
+      --card:#ffffff;
+      --accent:#ffd6d6;
+      --glass: rgba(255,255,255,0.85);
+    }
+    *{box-sizing:border-box}
+    body{font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; background:var(--bg); color:#14202b}
+
+    /* Layout */
+    .app{display:flex; min-height:100vh}
+    .sidebar{width:220px; background:linear-gradient(180deg,var(--dark),var(--primary)); color:#fff; padding:28px 18px; position:relative; justify-content: center;text-align: center;}
+    .brand{font-weight:700; font-size:18px; margin-bottom:18px}
+    .logo{width:160px; height:auto; margin-bottom:18px}
+    .side-btn{display:block; margin:10px 0; background:white; border:2px solid rgba(255,255,255,0.12); color:#9e1116; padding:5px 6px; border-radius:8px; text-decoration:none}
+    .side-btn:hover{background:rgba(255,255,255,0.03)}
+
+    .main{flex:1; padding:18px}
+    header.topbar{display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .title{background:var(--card); padding:14px 18px; border-radius:10px; box-shadow:0 6px 14px rgba(0,0,0,0.06); display:flex; gap:14px; align-items:right}
+    .title h1{margin:0; font-size:18px; color:var(--primary)}
+    .title .meta{font-size:13px; color:#666}
+
+    /* Card area */
+    .card{margin-top:18px; background:var(--card); border-radius:10px; padding:18px; box-shadow:0 10px 20px rgba(15,10,10,0.03)}
+
+    /* Tabs (rounded style like typical navigation) */
+    .tabs{margin-top:6px}
+    .tab-controls{display:flex; border-bottom:2px solid rgba(0,0,0,0.08)}
+    .tab-controls label{cursor:pointer; padding:10px 20px; border-radius:12px 12px 0 0; font-weight:600; background:var(--muted); margin-right:4px; color:var(--primary);}
+    .tab-controls label:hover{background:#f0dada}
+
+    input[type=radio]{display:none}
+
+    .tab-panels{margin-top:0; padding-top:14px}
+    .panel{display:none}
+
+    #tab1:checked ~ .tabs .tab-controls label[for="tab1"],
+    #tab2:checked ~ .tabs .tab-controls label[for="tab2"]{
+      background:linear-gradient(180deg,var(--primary-2),var(--primary));
+      color:#fff;
+      box-shadow:0 -2px 6px rgba(122,15,21,0.2);
+    }
+
+    #tab1:checked ~ .tabs .tab-panels .panel-1,
+    #tab2:checked ~ .tabs .tab-panels .panel-2{display:block}
+
+    /* Table mimic */
+    .table{width:100%; border-collapse:collapse; margin-top:12px}
+    .table thead th{background:linear-gradient(90deg, rgba(122,15,21,0.06), rgba(122,15,21,0.02)); color:var(--primary); text-align:left; padding:10px 12px; font-size:13px; border-bottom:2px solid rgba(0,0,0,0.04)}
+    .table tbody td{padding:10px 12px; border-bottom:1px solid #efefef; font-size:14px}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; background:var(--accent); color:var(--dark)}
+
+    .controls{display:flex; gap:10px; align-items:center}
+    .btn{border:var(--primary) solid 2px; color: var(--primary); padding:5px 6px; border-radius:12px; font-weight:bold; text-decoration:none; font-size: 11pt;}
+    .btn:hover{background: var(--primary);color: white;}
+    .btn.ghost{background:transparent; color:var(--primary); border:2px solid var(--primary)}
+
+    /* small helpers */
+    .flex{display:flex; align-items:center; gap:12px}
+    .muted{color:#708090}
+    .search{padding:8px 10px; border-radius:8px; border:1px solid #ddd}
+
+    /* responsive */
+    @media (max-width:900px){.sidebar{display:none}.main{padding:12px}}
+  </style>
+  <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <!-- Logo placeholder -->
+      <img src="logo-placeholder.png" alt="Company Logo" class="logo" />
+      <div class="brand">PRICING MODEL</div>
+
+      <div style="position:absolute; bottom:20px; left:18px; right:18px; font-size:12px; color:rgba(255,255,255,0.8)">
+        <div style="font-size:11px; opacity:0.9">23 SEPTEMBER 2025</div>
+      </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <!-- <div class="title">
+            <div style="width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--primary-2),var(--primary)); display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">PM</div>
+            <div>
+                <h1>Pricing Model</h1>
+                <div class="meta">System for model experiments & pricing reports</div>
+            </div>
+            </div> -->
+
+            <!-- <div class="title">
+            <div class="muted">Profile: <strong>ADMIN</strong></div>
+            <a class="btn ghost" href="#">Logout</a>
+            </div> -->
+        </header>
+
+        <section class="card">
+            <!-- purely CSS tabs using radio inputs -->
+            <input id="tab1" type="radio" name="tabs" checked>
+            <input id="tab2" type="radio" name="tabs">
+
+            <div class="tabs">
+            <div class="tab-controls">
+                <label for="tab1">FUND TRANSFER PRICING (FTP) MODEL <i class="bi bi-calculator-fill"></i></label>
+                <label for="tab2">ASSET PRICING TOOL <i class="bi bi-tags-fill"></i></label>
+            </div>
+
+            <div class="tab-panels">
+                <div class="panel panel-1">
+                    <div class="flex" style="justify-content:space-between">
+                        <div class="controls">
+                            <a class="btn" href="#">Upload Required Files</a>
+                            <a class="btn" href="#">Yield Curves</a>
+                            <a class="btn" href="#">Export Workbook</a>
+                        </div>
+                    </div>
+
+                    <div class="parameter-inputs" style="margin: 2rem 0; padding:20px; background:var(--card); border-radius:12px; max-width:100%; box-shadow:0 6px 15px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.08);">
+
+                        <h3 style="margin:0 0 12px 0; font-size:1rem; font-weight:700; color:var(--primary); border-bottom:1px solid rgba(0,0,0,0.1); padding-bottom:6px;">
+                            TREASURY PARAMETERS
+                        </h3>
+
+                        <!-- Cards Row -->
+                        <div style="display:flex; flex-direction:row; gap:1rem; justify-content:flex-start;">
+
+                            <!-- Treasury Minimum Balance -->
+                            <div style="display:flex; align-items:center; justify-content:space-between;
+                                        background: linear-gradient(135deg, var(--primary-2), var(--primary));
+                                        padding:6px 7px; border-radius:10px; color:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.15); width:max-content;">
+                                        
+                            <label for="min-balance" style="font-weight:600; letter-spacing:0.3px; font-size:0.85rem;">
+                                TREASURY MINIMUM OPERATING BALANCE:
+                            </label>
+
+                            <div style="display:flex; align-items:center; gap:6px; margin-left:10px;">
+                                <input type="number" id="min-balance" name="min-balance" placeholder="0" step="0.01" min="0" max="100"
+                                    style="padding:6px 8px; border:none; border-radius:6px; width:80px; text-align:center; font-weight:600; font-size: small; color:var(--primary-2); background:#fff;">
+                                <span style="font-weight:700; color:#fff;">%</span>
+                            </div>
+                            </div>
+
+                            <!-- Cash Average -->
+                            <div style="display:flex; align-items:center;
+                                        background: linear-gradient(135deg, var(--primary-2), var(--primary));
+                                        padding:6px 7px; border-radius:10px; color:#fff; box-shadow:0 4px 10px rgba(0,0,0,0.15); width:max-content;">
+
+                                <label for="cash-avg" style="font-weight:600; letter-spacing:0.3px; font-size:0.85rem;">
+                                    CASH, NOSTRO, RTGS MONTH'S AVERAGE:
+                                </label>
+
+                                <div style="display:flex; align-items:center; gap:6px; margin-left:10px;">
+                                    <input type="number" id="cash-avg" name="cash-avg" placeholder="0" step="0.01" min="0" max="100"
+                                        style="padding:6px 8px; border:none; border-radius:6px; width:80px; text-align:center; font-weight:600; color:var(--primary-2); background:#fff;">
+                                    <span style="font-weight:700; color:#fff;">%</span>
+                                </div>
+                            </div>
+
+                            <div style="display: flex;">  
+                                <a class="btn" href="#">Apply</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Section below parameter inputs -->
+                    <div style="margin: 2rem 0; padding:20px; background:var(--card); border-radius:12px; max-width:100%; 
+                                box-shadow:0 6px 15px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.08); display:flex;">
+
+                        <!-- Left Column -->
+                        <div style="flex:1; padding-right:16px; border-right:1px solid rgba(0,0,0,0.08);">
+                            <h4 style="margin-top:0; font-weight:700; color:var(--primary); font-size:0.95rem;">ZWG FTP</h4>
+                            <p style="font-size:0.85rem; color:#14202b; margin:6px 0 0 0;">
+                            Content for the left side. You can add tables, charts, or any controls here.
+                            </p>
+                        </div>
+
+                        <!-- Right Column -->
+                        <div style="flex:1; padding-left:16px;">
+                            <h4 style="margin-top:0; font-weight:700; color:var(--primary); font-size:0.95rem;">USD FTP</h4>
+                            <p style="font-size:0.85rem; color:#14202b; margin:6px 0 0 0;">
+                            Content for the right side. This column mirrors the left with consistent spacing and theme.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="panel panel-2">
+                    <div class="flex" style="justify-content:space-between">
+                        <div class="controls">
+                            <a class="btn" href="#">Calibrate</a>
+                            <a class="btn ghost" href="#">Export Report</a>
+                        </div>
+                        <div class="flex">
+                            <input class="search" placeholder="Search assets...">
+                        </div>
+                    </div>
+                    <div>
+                        <table class="table" aria-label="Asset Pricing table">
+                            <thead>
+                            <tr>
+                                <th>Model ID</th>
+                                <th>Asset</th>
+                                <th>Method</th>
+                                <th>Last Run</th>
+                                <th>Key Output</th>
+                                <th>Health</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr><td>AP-201</td><td>Corporate Bonds</td><td>CAPM</td><td>18 Sep 2025</td><td>IRR=5.6%</td><td><span class="pill">OK</span></td></tr>
+                            <tr><td>AP-202</td><td>Equities - Large Cap</td><td>Fama-French</td><td>20 Sep 2025</td><td>Alpha=0.9%</td><td><span class="pill">Good</span></td></tr>
+                            <tr><td>AP-203</td><td>Commodities</td><td>Multifactor</td><td>22 Sep 2025</td><td>Vol=12%</td><td><span class="pill">Review</span></td></tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+  </div>
+</body>
+</html>

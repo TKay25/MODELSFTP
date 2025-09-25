@@ -34,9 +34,19 @@ app.secret_key = '011235'
 app.permanent_session_lifetime = timedelta(minutes=30)
 user_sessions = {}
 
-#external_database_url = "postgresql://lmsdatabase_8ag3_user:6WD9lOnHkiU7utlUUjT88m4XgEYQMTLb@dpg-ctp9h0aj1k6c739h9di0-a.oregon-postgres.render.com/lmsdatabase_8ag3"
-#database = 'lmsdatabase_8ag3'
+external_database_url = "postgresql://treasuryx_user:EmjnMPmqoRPtvRwSH3uZOhW1vHf7KVKE@dpg-d3aigt2dbo4c738s91r0-a.oregon-postgres.render.com/treasuryx"
+database = 'treasuryx'
 
-#connection = psycopg2.connect(external_database_url)
+try:
+    connection = psycopg2.connect(external_database_url)
+    cursor = connection.cursor()
+    print("✅ Connection to PostgreSQL successful!")
 
-#cursor = connection.cursor()
+    # Test query (optional, ensures DB is responsive)
+    cursor.execute("SELECT version();")
+    record = cursor.fetchone()
+    print("PostgreSQL version:", record)
+
+except Exception as e:
+    print("❌ Failed to connect to the database")
+    print("Error:", e)
