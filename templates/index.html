@@ -200,6 +200,7 @@
 
                                 </div>
                                 <div class="modal-footer">
+                                    <button type="button" class="my-btn">Save Changes</button>
                                     <button type="button" class="my-btn" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
@@ -268,5 +269,12 @@
 
     </main>
   </div>
+<script>
+    // Make all table cells editable
+    document.querySelectorAll('.table-responsive table td, .table-responsive table th')
+        .forEach(cell => {
+            cell.setAttribute('contenteditable', 'true');
+        });
+</script>
 </body>
 </html>
