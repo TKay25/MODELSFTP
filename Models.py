@@ -165,7 +165,9 @@ def landingpage():
     zwg_df = fetch_table("ZWG FTP Yield Curve")
     usd_df = fetch_table("USD FTP Yield Curve")
 
-    print()
+
+    print(zwg_df)
+    print(usd_df)
 
     zwg_df = zwg_df.T.reset_index()
     usd_df = usd_df.T.reset_index()
