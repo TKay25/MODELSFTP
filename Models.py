@@ -168,8 +168,8 @@ def landingpage():
     print(zwg_df)
     print(zwg_df)
 
-    zwg_df = zwg_df.set_index("tenor").T.reset_index()
-    usd_df = usd_df.set_index("tenor").T.reset_index()
+    zwg_df = zwg_df.set_index("tenor").T
+    usd_df = usd_df.set_index("tenor").T
 
     print(zwg_df)
     print(zwg_df)
