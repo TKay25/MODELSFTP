@@ -169,10 +169,17 @@ def landingpage():
     print(usd_df)
 
     zwg_df = zwg_df.T.reset_index()
+    usd_df = usd_df.T.reset_index()
     print(zwg_df)
 
-    zwg_df = zwg_df.T.reset_index()[["index","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
-    usd_df = usd_df.T.reset_index()[["index","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
+    zwg_df.columns = zwg_df.iloc[0]  # Set the first row as column headers
+    zwg_df = zwg_df[1:].reset_index(drop=True)  
+
+    usd_df.columns = usd_df.iloc[0]  # Set the first row as column headers
+    usd_df = usd_df[1:].reset_index(drop=True)  
+
+    zwg_df = zwg_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
+    usd_df = usd_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
 
 
 
