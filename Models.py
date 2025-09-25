@@ -90,7 +90,7 @@ try:
             (Tenor, Normal_Curve_Bid_Rate, Normal_Curve_Liquidity_Premium, Normal_Curve_Offer_Rate, 
              Treasury_Curve_Bid_Rate, Treasury_Curve_Liquidity_Premium, Treasury_Curve_Offer_Rate)
             VALUES (%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (Term) DO UPDATE SET
+            ON CONFLICT (Tenor) DO UPDATE SET
                 Normal_Curve_Bid_Rate = EXCLUDED.Normal_Curve_Bid_Rate,
                 Normal_Curve_Liquidity_Premium = EXCLUDED.Normal_Curve_Liquidity_Premium,
                 Normal_Curve_Offer_Rate = EXCLUDED.Normal_Curve_Offer_Rate,
@@ -131,7 +131,7 @@ try:
              Treasury_Curve_Bid_Rate, Treasury_Curve_Liquidity_Premium, Treasury_Curve_Offer_Rate,
              Lines_of_Credit_Curve_Bid_Rate, Lines_of_Credit_Curve_Liquidity_Premium, Lines_of_Credit_Curve_Offer_Rate)
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (Term) DO UPDATE SET
+            ON CONFLICT (Tenor) DO UPDATE SET
                 Normal_Curve_Bid_Rate = EXCLUDED.Normal_Curve_Bid_Rate,
                 Normal_Curve_Liquidity_Premium = EXCLUDED.Normal_Curve_Liquidity_Premium,
                 Normal_Curve_Offer_Rate = EXCLUDED.Normal_Curve_Offer_Rate,
