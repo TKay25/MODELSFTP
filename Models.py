@@ -153,4 +153,25 @@ except Exception as e:
 
 @app.route('/')
 def landingpage():
-    return render_template('index.html') 
+
+    def fetch_table(table_name):
+        """Fetch table into pandas DataFrame"""
+        conn = psycopg2.connect(external_database_url)
+        query = f'SELECT * FROM "{table_name}" ORDER BY Tenor;'
+        df = pd.read_sql(query, conn)
+        conn.close()
+        return df
+
+    zwg_df = fetch_table("ZWG FTP Yield Curve")
+    usd_df = fetch_table("USD FTP Yield Curve")
+
+    # Convert DataFrames to HTML tables (Bootstrap-friendly)
+    zwg_html = zwg_df.to_html(classes="table table-striped table-bordered", index=False)
+    usd_html = usd_df.to_html(classes="table table-striped table-bordered", index=False)
+
+    return render_template("index.html", zwg_table=zwg_html, usd_table=usd_html)
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
