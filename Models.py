@@ -174,8 +174,6 @@ def landingpage():
     print(zwg_df)
     print(zwg_df)
 
-    zwg_df = zwg_df.iloc[:, 1:]
-    usd_df = usd_df.iloc[:, 1:]
     # Convert DataFrames to HTML tables (Bootstrap-friendly)
     zwg_html = zwg_df.to_html(classes="table table-striped table-bordered", index=False)
     usd_html = usd_df.to_html(classes="table table-striped table-bordered", index=False)
