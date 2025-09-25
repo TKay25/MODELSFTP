@@ -37,6 +37,10 @@ user_sessions = {}
 external_database_url = "postgresql://treasuryx_user:EmjnMPmqoRPtvRwSH3uZOhW1vHf7KVKE@dpg-d3aigt2dbo4c738s91r0-a.oregon-postgres.render.com/treasuryx"
 database = 'treasuryx'
 
+conn = psycopg2.connect(external_database_url)
+cursor = conn.cursor()
+
+'''
 data_zwg = {
     "Tenor": ["<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"],
     "Normal Curve Bid Rate": [10.00, 11.00, 12.00, 12.00, 12.00, 12.00, 13.94, 15.45, 18.47, 17.47],
@@ -66,8 +70,6 @@ df_usd = pd.DataFrame(data_usd)
 
 
 try:
-    conn = psycopg2.connect(external_database_url)
-    cursor = conn.cursor()
 
     # Create table if it doesn't exist
     cursor.execute("""
@@ -147,4 +149,8 @@ try:
     print("✅ Data inserted/updated into 'USD FTP Yield Curve' successfully!")
 
 except Exception as e:
-    print("❌ Error:", e)
+    print("❌ Error:", e)'''
+
+@app.route('/')
+def landingpage():
+    return render_template('index.html') 
