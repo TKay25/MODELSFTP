@@ -162,8 +162,8 @@ def landingpage():
         conn.close()
         return df
 
-    zwg_df = fetch_table("ZWG FTP Yield Curve")
-    usd_df = fetch_table("USD FTP Yield Curve")
+    zwg_df = zwg_df.set_index("Term").T.reset_index()
+    usd_df = usd_df.set_index("Term").T.reset_index()
 
     # Convert DataFrames to HTML tables (Bootstrap-friendly)
     zwg_html = zwg_df.to_html(classes="table table-striped table-bordered", index=False)
