@@ -348,10 +348,8 @@ def landingpage():
 
     def fetch_table(table_name):
         """Fetch table into pandas DataFrame"""
-        conn = psycopg2.connect(external_database_url)
         query = f'SELECT * FROM {table_name};'
         df = pd.read_sql(query, conn)
-        conn.close()
         return df
 
     zwg_df = fetch_table("zwgftpyieldcurves")
