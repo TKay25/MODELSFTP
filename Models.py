@@ -261,7 +261,7 @@ try:
 
     # Create table if it doesn't exist
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS "ZWG FTP Yield Curves" (
+    CREATE TABLE IF NOT EXISTS "ZWG_FTP_Yield_Curves" (
         Metric VARCHAR(100),
         "<1m" NUMERIC,
         "1m-2m" NUMERIC,
@@ -279,7 +279,7 @@ try:
 
     for _, row in df_zwg.iterrows():
         cursor.execute("""
-            INSERT INTO "ZWG FTP Yield Curves"
+            INSERT INTO "ZWG_FTP_Yield_Curves"
             (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
             "1y-2y", "2y-3y", "3y-5y", "+5y")
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
@@ -303,7 +303,7 @@ try:
 
     # Create table if not exists
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS "USD FTP Yield Curves" (
+        CREATE TABLE IF NOT EXISTS "USD_FTP_Yield_Curves" (
             Metric VARCHAR(100),
             "<1m" NUMERIC,
             "1m-2m" NUMERIC,
@@ -323,7 +323,7 @@ try:
 
     for _, row in df_usd.iterrows():
         cursor.execute("""
-            INSERT INTO "USD FTP Yield Curves"
+            INSERT INTO "USD_FTP_Yield_Curves"
             (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
             "1y-2y", "2y-3y", "3y-5y", "+5y")
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
@@ -357,8 +357,8 @@ def landingpage():
         conn.close()
         return df
 
-    zwg_df = fetch_table("ZWG FTP Yield Curves")
-    usd_df = fetch_table("USD FTP Yield Curves")
+    zwg_df = fetch_table("ZWG_FTP_Yield_Curves")
+    usd_df = fetch_table("USD_FTP_Yield_Curves")
 
     print(zwg_df)
     print(usd_df)
