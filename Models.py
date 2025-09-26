@@ -40,31 +40,206 @@ database = 'treasuryx'
 conn = psycopg2.connect(external_database_url)
 cursor = conn.cursor()
 
-'''
+
 data_zwg = {
-    "Tenor": ["<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"],
-    "Normal Curve Bid Rate": [10.00, 11.00, 12.00, 12.00, 12.00, 12.00, 13.94, 15.45, 18.47, 17.47],
-    "Normal Curve Liquidity Premium": [2.00]*10,
-    "Normal Curve Offer Rate": [12.00, 13.00, 14.00, 14.00, 14.00, 14.00, 15.94, 17.45, 20.47, 19.47],
-    "Treasury Curve Bid Rate": [16.00, 11.00, 11.00, 11.00, 11.00, 11.00, 7.00, 5.00, 5.00, 5.00],
-    "Treasury Curve Liquidity Premium": [2.00]*10,
-    "Treasury Curve Offer Rate": [18.00, 13.00, 13.00, 13.00, 13.00, 13.00, 9.00, 7.00, 7.00, 7.00],
+    "<1m": {
+        "Normal Curve Bid Rate": 10.00,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 12.00,
+        "Treasury Curve Bid Rate": 16.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 18.00,
+    },
+    "1m-2m": {
+        "Normal Curve Bid Rate": 11.00,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 13.00,
+        "Treasury Curve Bid Rate": 11.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 13.00,
+    },
+    "2m-3m": {
+        "Normal Curve Bid Rate": 12.00,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 14.00,
+        "Treasury Curve Bid Rate": 11.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 13.00,
+    },
+    "3m-6m": {
+        "Normal Curve Bid Rate": 12.00,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 14.00,
+        "Treasury Curve Bid Rate": 11.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 13.00,
+    },
+    "6m-9m": {
+        "Normal Curve Bid Rate": 12.00,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 14.00,
+        "Treasury Curve Bid Rate": 11.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 13.00,
+    },
+    "9m-12m": {
+        "Normal Curve Bid Rate": 12.00,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 14.00,
+        "Treasury Curve Bid Rate": 11.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 13.00,
+    },
+    "1y-2y": {
+        "Normal Curve Bid Rate": 13.94,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 15.94,
+        "Treasury Curve Bid Rate": 7.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 9.00,
+    },
+    "2y-3y": {
+        "Normal Curve Bid Rate": 15.45,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 17.45,
+        "Treasury Curve Bid Rate": 5.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 7.00,
+    },
+    "3y-5y": {
+        "Normal Curve Bid Rate": 18.47,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 20.47,
+        "Treasury Curve Bid Rate": 5.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 7.00,
+    },
+    "+5y": {
+        "Normal Curve Bid Rate": 17.47,
+        "Normal Curve Liquidity Premium": 2.00,
+        "Normal Curve Offer Rate": 19.47,
+        "Treasury Curve Bid Rate": 5.00,
+        "Treasury Curve Liquidity Premium": 2.00,
+        "Treasury Curve Offer Rate": 7.00,
+    },
 }
+
 
 df_zwg = pd.DataFrame(data_zwg)
 
 data_usd = {
-    "Tenor": ["<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"],
-    "Normal Curve Bid Rate": [8.00, 9.00, 10.00, 11.00, 11.00, 11.00, 14.39, 17.11, 22.55, 22.55],
-    "Normal Curve Liquidity Premium": [1.15]*10,
-    "Normal Curve Offer Rate": [9.15, 10.15, 11.15, 12.15, 12.15, 12.15, 15.54, 18.26, 23.70, 23.70],
-    "Treasury Curve Bid Rate": [2.88, 3.59, 2.76, 5.30, 4.25, 3.19, 4.37, 4.86, 4.86, 4.86],
-    "Treasury Curve Liquidity Premium": [1.15]*10,
-    "Treasury Curve Offer Rate": [4.03, 4.74, 3.91, 6.45, 5.40, 4.34, 5.52, 6.01, 6.01, 6.01],
-    "Lines of Credit Curve Bid Rate": [9.22, 9.22, 9.22, 9.22, 9.22, 9.22, 9.83, 9.97, 10.85, 10.85],
-    "Lines of Credit Curve Liquidity Premium": [1.15]*10,
-    "Lines of Credit Curve Offer Rate": [10.37, 10.37, 10.37, 10.37, 10.37, 10.37, 10.98, 11.12, 12.00, 12.00],
+    "<1m": {
+        "Normal Curve Bid Rate": 8.00,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 9.15,
+        "Treasury Curve Bid Rate": 2.88,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 4.03,
+        "Lines of Credit Curve Bid Rate": 9.22,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.37,
+    },
+    "1m-2m": {
+        "Normal Curve Bid Rate": 9.00,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 10.15,
+        "Treasury Curve Bid Rate": 3.59,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 4.74,
+        "Lines of Credit Curve Bid Rate": 9.22,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.37,
+    },
+    "2m-3m": {
+        "Normal Curve Bid Rate": 10.00,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 11.15,
+        "Treasury Curve Bid Rate": 2.76,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 3.91,
+        "Lines of Credit Curve Bid Rate": 9.22,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.37,
+    },
+    "3m-6m": {
+        "Normal Curve Bid Rate": 11.00,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 12.15,
+        "Treasury Curve Bid Rate": 5.30,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 6.45,
+        "Lines of Credit Curve Bid Rate": 9.22,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.37,
+    },
+    "6m-9m": {
+        "Normal Curve Bid Rate": 11.00,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 12.15,
+        "Treasury Curve Bid Rate": 4.25,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 5.40,
+        "Lines of Credit Curve Bid Rate": 9.22,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.37,
+    },
+    "9m-12m": {
+        "Normal Curve Bid Rate": 11.00,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 12.15,
+        "Treasury Curve Bid Rate": 3.19,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 4.34,
+        "Lines of Credit Curve Bid Rate": 9.22,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.37,
+    },
+    "1y-2y": {
+        "Normal Curve Bid Rate": 14.39,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 15.54,
+        "Treasury Curve Bid Rate": 4.37,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 5.52,
+        "Lines of Credit Curve Bid Rate": 9.83,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 10.98,
+    },
+    "2y-3y": {
+        "Normal Curve Bid Rate": 17.11,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 18.26,
+        "Treasury Curve Bid Rate": 4.86,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 6.01,
+        "Lines of Credit Curve Bid Rate": 9.97,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 11.12,
+    },
+    "3y-5y": {
+        "Normal Curve Bid Rate": 22.55,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 23.70,
+        "Treasury Curve Bid Rate": 4.86,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 6.01,
+        "Lines of Credit Curve Bid Rate": 10.85,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 12.00,
+    },
+    "+5y": {
+        "Normal Curve Bid Rate": 22.55,
+        "Normal Curve Liquidity Premium": 1.15,
+        "Normal Curve Offer Rate": 23.70,
+        "Treasury Curve Bid Rate": 4.86,
+        "Treasury Curve Liquidity Premium": 1.15,
+        "Treasury Curve Offer Rate": 6.01,
+        "Lines of Credit Curve Bid Rate": 10.85,
+        "Lines of Credit Curve Liquidity Premium": 1.15,
+        "Lines of Credit Curve Offer Rate": 12.00,
+    },
 }
+
 
 df_usd = pd.DataFrame(data_usd)
 
@@ -73,83 +248,90 @@ try:
 
     # Create table if it doesn't exist
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS "ZWG FTP Yield Curve" (
-            Tenor VARCHAR(10) PRIMARY KEY,
-            Normal_Curve_Bid_Rate NUMERIC,
-            Normal_Curve_Liquidity_Premium NUMERIC,
-            Normal_Curve_Offer_Rate NUMERIC,
-            Treasury_Curve_Bid_Rate NUMERIC,
-            Treasury_Curve_Liquidity_Premium NUMERIC,
-            Treasury_Curve_Offer_Rate NUMERIC
-        );
+    CREATE TABLE IF NOT EXISTS "ZWG FTP Yield Curves" (
+        Metric VARCHAR(100),
+        "<1m" NUMERIC,
+        "1m-2m" NUMERIC,
+        "2m-3m" NUMERIC,
+        "3m-6m" NUMERIC,
+        "6m-9m" NUMERIC,
+        "9m-12m" NUMERIC,
+        "1y-2y" NUMERIC,
+        "2y-3y" NUMERIC,
+        "3y-5y" NUMERIC,
+        "+5y" NUMERIC
+            );
     """)
     conn.commit()
 
-    # Insert rows (on conflict, update values)
     for _, row in df_zwg.iterrows():
         cursor.execute("""
-            INSERT INTO "ZWG FTP Yield Curve" 
-            (Tenor, Normal_Curve_Bid_Rate, Normal_Curve_Liquidity_Premium, Normal_Curve_Offer_Rate, 
-             Treasury_Curve_Bid_Rate, Treasury_Curve_Liquidity_Premium, Treasury_Curve_Offer_Rate)
-            VALUES (%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (Tenor) DO UPDATE SET
-                Normal_Curve_Bid_Rate = EXCLUDED.Normal_Curve_Bid_Rate,
-                Normal_Curve_Liquidity_Premium = EXCLUDED.Normal_Curve_Liquidity_Premium,
-                Normal_Curve_Offer_Rate = EXCLUDED.Normal_Curve_Offer_Rate,
-                Treasury_Curve_Bid_Rate = EXCLUDED.Treasury_Curve_Bid_Rate,
-                Treasury_Curve_Liquidity_Premium = EXCLUDED.Treasury_Curve_Liquidity_Premium,
-                Treasury_Curve_Offer_Rate = EXCLUDED.Treasury_Curve_Offer_Rate;
+            INSERT INTO "ZWG FTP Yield Curves"
+            (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
+            "1y-2y", "2y-3y", "3y-5y", "+5y")
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            ON CONFLICT (Metric) DO UPDATE SET
+                "<1m"   = EXCLUDED."<1m",
+                "1m-2m" = EXCLUDED."1m-2m",
+                "2m-3m" = EXCLUDED."2m-3m",
+                "3m-6m" = EXCLUDED."3m-6m",
+                "6m-9m" = EXCLUDED."6m-9m",
+                "9m-12m"= EXCLUDED."9m-12m",
+                "1y-2y" = EXCLUDED."1y-2y",
+                "2y-3y" = EXCLUDED."2y-3y",
+                "3y-5y" = EXCLUDED."3y-5y",
+                "+5y"   = EXCLUDED."+5y";
         """, tuple(row))
 
     conn.commit()
-    print("✅ Data inserted/updated into 'ZWG FTP Yield Curve' successfully!")
+    print("✅ Data inserted/updated into 'ZWG FTP Yield Curves' successfully!")
 
 
 
     # Create table if not exists
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS "USD FTP Yield Curve" (
-            Tenor VARCHAR(10) PRIMARY KEY,
-            Normal_Curve_Bid_Rate NUMERIC,
-            Normal_Curve_Liquidity_Premium NUMERIC,
-            Normal_Curve_Offer_Rate NUMERIC,
-            Treasury_Curve_Bid_Rate NUMERIC,
-            Treasury_Curve_Liquidity_Premium NUMERIC,
-            Treasury_Curve_Offer_Rate NUMERIC,
-            Lines_of_Credit_Curve_Bid_Rate NUMERIC,
-            Lines_of_Credit_Curve_Liquidity_Premium NUMERIC,
-            Lines_of_Credit_Curve_Offer_Rate NUMERIC
+        CREATE TABLE IF NOT EXISTS "USD FTP Yield Curves" (
+            Metric VARCHAR(100),
+            "<1m" NUMERIC,
+            "1m-2m" NUMERIC,
+            "2m-3m" NUMERIC,
+            "3m-6m" NUMERIC,
+            "6m-9m" NUMERIC,
+            "9m-12m" NUMERIC,
+            "1y-2y" NUMERIC,
+            "2y-3y" NUMERIC,
+            "3y-5y" NUMERIC,
+            "+5y" NUMERIC
         );
     """)
 
     conn.commit()
 
 
-    # Insert rows (upsert)
     for _, row in df_usd.iterrows():
         cursor.execute("""
-            INSERT INTO "USD FTP Yield Curve" 
-            (Tenor, Normal_Curve_Bid_Rate, Normal_Curve_Liquidity_Premium, Normal_Curve_Offer_Rate,
-             Treasury_Curve_Bid_Rate, Treasury_Curve_Liquidity_Premium, Treasury_Curve_Offer_Rate,
-             Lines_of_Credit_Curve_Bid_Rate, Lines_of_Credit_Curve_Liquidity_Premium, Lines_of_Credit_Curve_Offer_Rate)
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (Tenor) DO UPDATE SET
-                Normal_Curve_Bid_Rate = EXCLUDED.Normal_Curve_Bid_Rate,
-                Normal_Curve_Liquidity_Premium = EXCLUDED.Normal_Curve_Liquidity_Premium,
-                Normal_Curve_Offer_Rate = EXCLUDED.Normal_Curve_Offer_Rate,
-                Treasury_Curve_Bid_Rate = EXCLUDED.Treasury_Curve_Bid_Rate,
-                Treasury_Curve_Liquidity_Premium = EXCLUDED.Treasury_Curve_Liquidity_Premium,
-                Treasury_Curve_Offer_Rate = EXCLUDED.Treasury_Curve_Offer_Rate,
-                Lines_of_Credit_Curve_Bid_Rate = EXCLUDED.Lines_of_Credit_Curve_Bid_Rate,
-                Lines_of_Credit_Curve_Liquidity_Premium = EXCLUDED.Lines_of_Credit_Curve_Liquidity_Premium,
-                Lines_of_Credit_Curve_Offer_Rate = EXCLUDED.Lines_of_Credit_Curve_Offer_Rate;
+            INSERT INTO "USD FTP Yield Curves"
+            (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
+            "1y-2y", "2y-3y", "3y-5y", "+5y")
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+            ON CONFLICT (Metric) DO UPDATE SET
+                "<1m"   = EXCLUDED."<1m",
+                "1m-2m" = EXCLUDED."1m-2m",
+                "2m-3m" = EXCLUDED."2m-3m",
+                "3m-6m" = EXCLUDED."3m-6m",
+                "6m-9m" = EXCLUDED."6m-9m",
+                "9m-12m"= EXCLUDED."9m-12m",
+                "1y-2y" = EXCLUDED."1y-2y",
+                "2y-3y" = EXCLUDED."2y-3y",
+                "3y-5y" = EXCLUDED."3y-5y",
+                "+5y"   = EXCLUDED."+5y";
         """, tuple(row))
 
     conn.commit()
-    print("✅ Data inserted/updated into 'USD FTP Yield Curve' successfully!")
+    print("✅ Data inserted/updated into 'USD FTP Yield Curves' successfully!")
 
 except Exception as e:
-    print("❌ Error:", e)'''
+    print("❌ Error:", e)
 
 @app.route('/')
 def landingpage():
