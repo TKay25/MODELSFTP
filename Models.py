@@ -40,7 +40,7 @@ database = 'treasuryx'
 conn = psycopg2.connect(external_database_url)
 cursor = conn.cursor()
 
-'''
+
 data_zwg = {
     "<1m": {
         "Normal Curve Bid Rate": 10.00,
@@ -331,7 +331,7 @@ try:
     print("✅ Data inserted/updated into 'USD FTP Yield Curves' successfully!")
 
 except Exception as e:
-    print("❌ Error:", e)'''
+    print("❌ Error:", e)
 
 @app.route('/')
 def landingpage():
