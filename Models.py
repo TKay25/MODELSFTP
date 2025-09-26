@@ -39,7 +39,7 @@ database = 'treasuryx'
 
 conn = psycopg2.connect(external_database_url)
 cursor = conn.cursor()
-
+'''
 # Fetch all table names in public schema
 cursor.execute("""
     SELECT tablename FROM pg_tables
@@ -51,7 +51,7 @@ tables = cursor.fetchall()
 for table in tables:
     table_name = table[0]
     cursor.execute(f'DROP TABLE IF EXISTS "{table_name}" CASCADE;')
-    print(f"Dropped table: {table_name}")
+    print(f"Dropped table: {table_name}")'''
 
 
 data_zwg = {
