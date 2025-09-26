@@ -39,7 +39,7 @@ database = 'treasuryx'
 
 conn = psycopg2.connect(external_database_url)
 cursor = conn.cursor()
-'''
+
 # Fetch all table names in public schema
 cursor.execute("""
     SELECT tablename FROM pg_tables
@@ -51,7 +51,7 @@ tables = cursor.fetchall()
 for table in tables:
     table_name = table[0]
     cursor.execute(f'DROP TABLE IF EXISTS "{table_name}" CASCADE;')
-    print(f"Dropped table: {table_name}")'''
+    print(f"Dropped table: {table_name}")
 
 
 data_zwg = {
@@ -261,7 +261,7 @@ try:
 
     # Create table if it doesn't exist
     cursor.execute("""
-    CREATE TABLE IF NOT EXISTS zwg_ftp_yield_curves (
+    CREATE TABLE IF NOT EXISTS zwgftpyieldcurves (
         Metric VARCHAR(100),
         "<1m" NUMERIC,
         "1m-2m" NUMERIC,
@@ -279,7 +279,7 @@ try:
 
     for _, row in df_zwg.iterrows():
         cursor.execute("""
-            INSERT INTO zwg_ftp_yield_curves
+            INSERT INTO zwgftpyieldcurves
             (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
             "1y-2y", "2y-3y", "3y-5y", "+5y")
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
@@ -300,7 +300,7 @@ try:
     print("✅ Data inserted/updated into 'ZWG FTP Yield Curves' successfully!")
 
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS usd_ftp_yield_curves (
+        CREATE TABLE IF NOT EXISTS usdftpyieldcurves (
             Metric VARCHAR(100),
             "<1m" NUMERIC,
             "1m-2m" NUMERIC,
@@ -320,7 +320,7 @@ try:
 
     for _, row in df_usd.iterrows():
         cursor.execute("""
-            INSERT INTO usd_ftp_yield_curves
+            INSERT INTO usdftpyieldcurves
             (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
             "1y-2y", "2y-3y", "3y-5y", "+5y")
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
@@ -354,8 +354,8 @@ def landingpage():
         conn.close()
         return df
 
-    zwg_df = fetch_table("zwg_ftp_yield_curves")
-    usd_df = fetch_table("usd_ftp_yield_curves")
+    zwg_df = fetch_table("zwgftpyieldcurves")
+    usd_df = fetch_table("usdftpyieldcurves")
 
     print(zwg_df)
     print(usd_df)
