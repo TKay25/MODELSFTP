@@ -283,17 +283,6 @@ try:
             (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
             "1y-2y", "2y-3y", "3y-5y", "+5y")
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (Metric) DO UPDATE SET
-                "<1m"   = EXCLUDED."<1m",
-                "1m-2m" = EXCLUDED."1m-2m",
-                "2m-3m" = EXCLUDED."2m-3m",
-                "3m-6m" = EXCLUDED."3m-6m",
-                "6m-9m" = EXCLUDED."6m-9m",
-                "9m-12m"= EXCLUDED."9m-12m",
-                "1y-2y" = EXCLUDED."1y-2y",
-                "2y-3y" = EXCLUDED."2y-3y",
-                "3y-5y" = EXCLUDED."3y-5y",
-                "+5y"   = EXCLUDED."+5y";
         """, tuple(row))
 
     conn.commit()
@@ -324,17 +313,6 @@ try:
             (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
             "1y-2y", "2y-3y", "3y-5y", "+5y")
             VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            ON CONFLICT (Metric) DO UPDATE SET
-                "<1m"   = EXCLUDED."<1m",
-                "1m-2m" = EXCLUDED."1m-2m",
-                "2m-3m" = EXCLUDED."2m-3m",
-                "3m-6m" = EXCLUDED."3m-6m",
-                "6m-9m" = EXCLUDED."6m-9m",
-                "9m-12m"= EXCLUDED."9m-12m",
-                "1y-2y" = EXCLUDED."1y-2y",
-                "2y-3y" = EXCLUDED."2y-3y",
-                "3y-5y" = EXCLUDED."3y-5y",
-                "+5y"   = EXCLUDED."+5y";
         """, tuple(row))
 
     conn.commit()
