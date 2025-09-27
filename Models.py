@@ -277,22 +277,6 @@ try:
     """)
     conn.commit()
 
-    # Fix dataframe layout so "Metric" is a column
-    df_zwg_t = df_zwg.T.reset_index().rename(columns={"index": "Metric"})
-
-    # ZWG table
-    for _, row in df_zwg_t.iterrows():
-        cursor.execute("""
-            INSERT INTO zwgftpyieldcurves
-            (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
-            "1y-2y", "2y-3y", "3y-5y", "+5y")
-            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-        """, tuple(row))
-
-
-    conn.commit()
-    print("✅ Data inserted/updated into 'ZWG FTP Yield Curves' successfully!")
-
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS usdftpyieldcurves (
             Metric VARCHAR(100),
@@ -310,6 +294,24 @@ try:
     """)
 
     conn.commit()
+
+    # Fix dataframe layout so "Metric" is a column
+    df_zwg_t = df_zwg.T.reset_index().rename(columns={"index": "Metric"})
+
+    # ZWG table
+    for _, row in df_zwg_t.iterrows():
+        cursor.execute("""
+            INSERT INTO zwgftpyieldcurves
+            (Metric, "<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m",
+            "1y-2y", "2y-3y", "3y-5y", "+5y")
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+        """, tuple(row))
+
+
+    conn.commit()
+    print("✅ Data inserted/updated into 'ZWG FTP Yield Curves' successfully!")
+
+
 
 
     df_usd_t = df_usd.T.reset_index().rename(columns={"index": "Metric"})
