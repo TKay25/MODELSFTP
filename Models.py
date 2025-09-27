@@ -346,19 +346,23 @@ except Exception as e:
 @app.route('/')
 def landingpage():
 
-    def fetch_table(table_name):
-        """Fetch table into pandas DataFrame"""
-        query = f'SELECT * FROM {table_name};'
-        df = pd.read_sql(query, conn)
-        return df
 
-    zwg_df = fetch_table("zwgftpyieldcurves")
-    usd_df = fetch_table("usdftpyieldcurves")
+    query = f"SELECT * FROM zwgftpyieldcurves;"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    zwg_df = pd.DataFrame(rows)
+
+    query = f"SELECT * FROM usdftpyieldcurves;"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    usd_df = pd.DataFrame(rows)
 
     print(zwg_df)
     print(usd_df)
 
-    zwg_df = zwg_df.T.reset_index()
+    '''zwg_df = zwg_df.T.reset_index()
     usd_df = usd_df.T.reset_index()
     print(zwg_df)
 
@@ -369,7 +373,7 @@ def landingpage():
     usd_df = usd_df[1:].reset_index(drop=True)  
 
     zwg_df = zwg_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
-    usd_df = usd_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
+    usd_df = usd_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]'''
 
 
 
