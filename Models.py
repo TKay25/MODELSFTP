@@ -346,46 +346,55 @@ except Exception as e:
 @app.route('/')
 def landingpage():
 
+    try:
 
-    query = f"SELECT * FROM zwgftpyieldcurves;"
-    cursor.execute(query)
-    rows = cursor.fetchall()
+        conn.rollback()
 
-    zwg_df = pd.DataFrame(rows)
+        query = f"SELECT * FROM zwgftpyieldcurves;"
+        cursor.execute(query)
+        rows = cursor.fetchall()
 
-    query = f"SELECT * FROM usdftpyieldcurves;"
-    cursor.execute(query)
-    rows = cursor.fetchall()
+        colnames = [desc[0] for desc in cursor.description]
+        zwg_df = pd.DataFrame(rows, columns=colnames)
 
-    usd_df = pd.DataFrame(rows)
+        query = f"SELECT * FROM usdftpyieldcurves;"
+        cursor.execute(query)
+        rows = cursor.fetchall()
 
-    print(zwg_df)
-    print(usd_df)
+        colnames = [desc[0] for desc in cursor.description]
+        usd_df = pd.DataFrame(rows, columns=colnames)
 
-    '''zwg_df = zwg_df.T.reset_index()
-    usd_df = usd_df.T.reset_index()
-    print(zwg_df)
+        print(zwg_df)
+        print(usd_df)
 
-    zwg_df.columns = zwg_df.iloc[0]  # Set the first row as column headers
-    zwg_df = zwg_df[1:].reset_index(drop=True)  
+        '''zwg_df = zwg_df.T.reset_index()
+        usd_df = usd_df.T.reset_index()
+        print(zwg_df)
 
-    usd_df.columns = usd_df.iloc[0]  # Set the first row as column headers
-    usd_df = usd_df[1:].reset_index(drop=True)  
+        zwg_df.columns = zwg_df.iloc[0]  # Set the first row as column headers
+        zwg_df = zwg_df[1:].reset_index(drop=True)  
 
-    zwg_df = zwg_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
-    usd_df = usd_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]'''
+        usd_df.columns = usd_df.iloc[0]  # Set the first row as column headers
+        usd_df = usd_df[1:].reset_index(drop=True)  
+
+        zwg_df = zwg_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]
+        usd_df = usd_df[["tenor","<1m", "1m-2m", "2m-3m", "3m-6m", "6m-9m", "9m-12m", "1y-2y", "2y-3y", "3y-5y", "+5y"]]'''
 
 
 
-    print(zwg_df)
-    print(zwg_df)
+        print(zwg_df)
+        print(zwg_df)
 
-    # Convert DataFrames to HTML tables (Bootstrap-friendly)
-    zwg_html = zwg_df.to_html(classes="table table-striped table-bordered", index=False)
-    usd_html = usd_df.to_html(classes="table table-striped table-bordered", index=False)
+        # Convert DataFrames to HTML tables (Bootstrap-friendly)
+        zwg_html = zwg_df.to_html(classes="table table-striped table-bordered", index=False)
+        usd_html = usd_df.to_html(classes="table table-striped table-bordered", index=False)
 
-    return render_template("index.html", zwg_table=zwg_html, usd_table=usd_html)
+        return render_template("index.html", zwg_table=zwg_html, usd_table=usd_html)
 
+    except Exception as e:
+        conn.rollback()  # reset failed transaction
+        print("❌ Error in landingpage:", e)
+        return f"Database error: {e}", 500
 
 
 if __name__ == '__main__':
