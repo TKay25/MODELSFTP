@@ -123,13 +123,17 @@
                 <div class="panel panel-1">
                     <div class="flex" style="justify-content:space-between">
                         <div class="controls">
-                            <a class="my-btn">Upload Required Files</a>
+                            <a href="javascript:void(0)" class="my-btn" onclick="document.getElementById('fileInput').click();">Upload Required File</a>
+                            <input type="file" id="fileInput" style="display: none;" />
+
                             <a class="my-btn" data-bs-toggle="modal" data-bs-target="#yieldCurvesModal">
                                 Yield Curves
                             </a>
                             <a class="my-btn">Export Workbook</a>
                         </div>
                     </div>
+                    <div id="fileNameDisplay"></div>
+
 
                     <div class="parameter-inputs" style="margin: 2rem 0; padding:20px; background:var(--card); border-radius:12px; max-width:100%; box-shadow:0 6px 15px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.08);">
 
@@ -294,6 +298,21 @@
         .forEach(cell => {
             cell.setAttribute('contenteditable', 'true');
         });
+</script>
+<script>
+  document.getElementById("fileInput").addEventListener("change", function () {
+    let output = document.getElementById("fileNameDisplay");
+    output.innerHTML = ""; // clear previous selection
+    
+    if (this.files.length > 0) {
+      for (let i = 0; i < this.files.length; i++) {
+        let file = this.files[i];
+        let p = document.createElement("p");
+        p.textContent = file.name;
+        output.appendChild(p);
+      }
+    }
+  });
 </script>
 </body>
 </html>
