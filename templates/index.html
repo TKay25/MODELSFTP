@@ -71,7 +71,8 @@
     .flex{display:flex; align-items:center; gap:12px}
     .muted{color:#708090}
     .search{padding:8px 10px; border-radius:8px; border:1px solid #ddd}
-
+    .file-display {margin-top: 14px;display: flex;flex-wrap: wrap;gap: 8px;}
+    .file-pill {background: var(--accent);color: var(--dark);padding: 6px 12px;border-radius: 999px;font-size: 13px;font-weight: 600;box-shadow: 0 2px 4px rgba(0,0,0,0.06);}
     /* responsive */
     @media (max-width:900px){.sidebar{display:none}.main{padding:12px}}
   </style>
@@ -132,7 +133,7 @@
                             <a class="my-btn">Export Workbook</a>
                         </div>
                     </div>
-                    <div id="fileNameDisplay"></div>
+                    <div id="fileNameDisplay" class="file-display"></div>
 
 
                     <div class="parameter-inputs" style="margin: 2rem 0; padding:20px; background:var(--card); border-radius:12px; max-width:100%; box-shadow:0 6px 15px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.08);">
@@ -302,14 +303,17 @@
 <script>
   document.getElementById("fileInput").addEventListener("change", function () {
     let output = document.getElementById("fileNameDisplay");
-    output.innerHTML = ""; // clear previous selection
+    output.innerHTML = ""; // clear previous
     
     if (this.files.length > 0) {
       for (let i = 0; i < this.files.length; i++) {
         let file = this.files[i];
-        let p = document.createElement("p");
-        p.textContent = file.name;
-        output.appendChild(p);
+        
+        let div = document.createElement("div");
+        div.className = "file-pill";
+        div.textContent = file.name;
+        
+        output.appendChild(div);
       }
     }
   });
