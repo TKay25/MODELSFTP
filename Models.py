@@ -358,9 +358,17 @@ def landingpage():
         print(usd_df)
 
         # Convert DataFrames to HTML tables (Bootstrap-friendly)
-        zwg_html = zwg_df.to_html(classes="table table-striped table-bordered", index=False)
-        usd_html = usd_df.to_html(classes="table table-striped table-bordered", index=False)
+        zwg_html = zwg_df.to_html(
+            classes="table table-striped table-bordered",
+            index=False,
+            table_id="zwgTable"
+        )
 
+        usd_html = usd_df.to_html(
+            classes="table table-striped table-bordered",
+            index=False,
+            table_id="usdTable"
+        )
         return render_template("index.html", zwg_table=zwg_html, usd_table=usd_html)
 
     except Exception as e:
