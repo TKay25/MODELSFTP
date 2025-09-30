@@ -452,13 +452,18 @@ document.getElementById("assetForm").addEventListener("submit", function(event) 
   const table = document.getElementById(tableId);
 
   // Lookup row based on source of funding
-  let lookupRowName = null;
-  if (source.toLowerCase() === "line of credit" || source.toLowerCase() === "lines of credit") {
-    lookupRowName = "Lines of Credit Curve Offer Rate";
-  } else {
-    alert("Lookup not defined for this source");
-    return;
-  }
+    let lookupRowName = null;
+
+    if (source.toLowerCase() === "line of credit" || source.toLowerCase() === "lines of credit") {
+        lookupRowName = "Lines of Credit Curve Offer Rate";
+    } else if (source.toLowerCase() === "demand deposits") {
+        lookupRowName = "Normal Curve Offer Rate"; // replace with actual row name in your table
+    } else if (source.toLowerCase() === "treasury deposits") {
+        lookupRowName = "Treasury Curve Offer Rate"; // replace with actual row name in your table
+    } else {
+        alert("Lookup not defined for this source");
+        return;
+    }
 
   let targetRow = null;
   // Skip the header row (index 0)
