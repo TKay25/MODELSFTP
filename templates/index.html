@@ -315,7 +315,7 @@
                     <div class="card">
                         <div class="flex">
                             <label for="ftp-option" style="font-weight:600; color:var(--primary);">
-                            Generate FTP Charge Schedule?
+                            Generate Asset FTP Charge Schedule?
                             </label>
                             <select id="ftp-option" class="search">
                             <option value="no">No</option>
@@ -326,24 +326,29 @@
                         <!-- Hidden section -->
                         <div class="flex" id="ftp-schedule-section" style="margin-top:16px; display:none; flex-direction:column; gap:14px;">
 
+                            <div class="flex" style="gap:10px; align-items:center;">
+                                <label for="asset-amount" style="font-weight:600; color:var(--primary); min-width:180px;">
+                                Disbursement Amount
+                                </label>
+                                <input type="number" id="asset-amount" class="search" placeholder="Enter amount" style="max-width: 180px;">
+                            </div>
+
+                            <br>
+
                             <!-- Row 1: Asset Disbursement Date -->
                             <div class="flex" style="gap:10px; align-items:center;">
                                 <label for="asset-date" style="font-weight:600; color:var(--primary); min-width:180px;">
-                                Asset Disbursement Date
+                                Disbursement Date
                                 </label>
                                 <input type="date" id="asset-date" class="search">
                             </div>
+                            
 
                             <!-- Row 2: Asset Amount -->
-                            <div class="flex" style="gap:10px; align-items:center;">
-                                <label for="asset-amount" style="font-weight:600; color:var(--primary); min-width:180px;">
-                                Asset Amount
-                                </label>
-                                <input type="number" id="asset-amount" class="search" placeholder="Enter amount">
-                            </div>
+
 
                             <!-- Button -->
-                            <div>
+                            <div class="flex" style="justify-content:center; margin-top:10px;">
                                 <button class="my-btn">Generate Schedule</button>
                             </div>
                         </div>
