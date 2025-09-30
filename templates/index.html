@@ -76,10 +76,10 @@
     
     #tenor::placeholder {
         color: var(--primary-2);
-        opacity: 1; /* ensures full color visibility */
-        font-weight: bold; /* optional */
+        opacity: 1; 
+        font-weight: bold; 
     }
-    /* responsive */
+    
     @media (max-width:900px){.sidebar{display:none}.main{padding:12px}}
   </style>
   <!-- Bootstrap Icons CSS -->
@@ -332,32 +332,40 @@
                         <!-- Hidden section -->
                         <div class="flex" id="ftp-schedule-section" style="margin-top:16px; display:none; flex-direction:column; gap:14px;">
 
+                            <!-- Disbursement Amount -->
                             <div class="flex" style="gap:10px; align-items:center;">
                                 <label for="asset-amount" style="font-weight:600; color:var(--primary); min-width:180px;">
-                                Disbursement Amount
+                                    Disbursement Amount
                                 </label>
                                 <input type="number" id="asset-amount" class="search" placeholder="Enter amount" style="max-width: 180px;">
                             </div>
 
-                            <br>
-
-                            <!-- Row 1: Asset Disbursement Date -->
+                            <!-- Disbursement Date -->
                             <div class="flex" style="gap:10px; align-items:center;">
                                 <label for="asset-date" style="font-weight:600; color:var(--primary); min-width:180px;">
-                                Disbursement Date
+                                    Disbursement Date
                                 </label>
                                 <input type="date" id="asset-date" class="search">
                             </div>
-                            
 
-                            <!-- Row 2: Asset Amount -->
+                            <!-- Repayment Type -->
+                            <div class="flex" style="gap:10px; align-items:center;">
+                                <label for="repayment-type" style="font-weight:600; color:var(--primary); min-width:180px;">
+                                    Repayment Type
+                                </label>
+                                <select id="repayment-type" class="search" style="max-width: 180px;">
+                                    <option value="" disabled selected>Select type</option>
+                                    <option value="bullet">Bullet</option>
+                                    <option value="amortising">Amortising</option>
+                                </select>
+                            </div>
 
-
-                            <!-- Button -->
+                            <!-- Generate Schedule Button -->
                             <div class="flex" style="justify-content:center; margin-top:10px;">
                                 <button class="my-btn">Generate Schedule</button>
                             </div>
                         </div>
+
 
                     </div>
 
