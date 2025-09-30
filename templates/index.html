@@ -252,54 +252,67 @@
 
                 </div>
 
-                <div class="panel panel-2" style="padding:20px; max-width:450px; background:var(--card); border-radius:16px; box-shadow:0 6px 14px rgba(0,0,0,0.06);">
-                    <!-- Currency Dropdown -->
-                    <div style="margin-bottom:15px;">
-                        <label for="currency" style="font-weight:bold; display:block; margin-bottom:5px; color:var(--primary)">Asset Currency</label>
-                        <select id="currency" class="search" style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;color:var(--primary-2);font-weight: bold;">
-                            <option value="" disabled selected>Select Currency</option> <!-- placeholder -->
-                            <option value="USD">USD</option>
-                            <option value="EUR">ZWG</option>
-                        </select>
-                    </div>
+                <div class="panel panel-2" 
+                    style="padding:20px; max-width:450px; background:var(--card); border-radius:16px; box-shadow:0 6px 14px rgba(0,0,0,0.06);">
 
-                    <!-- Tenor Number Input -->
-                    <div style="margin-bottom:15px;">
-                        <label for="tenor" style="font-weight:bold; display:block; margin-bottom:5px; color:var(--primary)">
-                            Tenor (Months)
-                        </label>
-                        <input 
-                            id="tenor" 
-                            type="number" 
-                            min="1" 
-                            max="360" 
-                            step="1" 
-                            value="" 
-                            placeholder="Enter tenor in months"
-                            class="search" 
-                            style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;color:var(--primary-2);font-weight: bold;"
-                        >
-                    </div>
+                    <!-- Flask Form -->
+                    <form action="{{ url_for('apply') }}" method="POST">
 
-                    <!-- Source of Funding Dropdown -->
-                    <div style="margin-bottom:20px;">
-                        <label for="source" style="font-weight:bold; display:block; margin-bottom:5px; color:var(--primary)">Source of Funding</label>
-                        <select id="source" class="search" style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;color:var(--primary-2);font-weight: bold;">
-                            <option value="" disabled selected>Select Source</option> <!-- placeholder -->
-                            <option value="Internal">Line Of Credit</option>
-                            <option value="External">Demand Deposits</option>
-                            <option value="Other">Treasury Deposits</option>
-                        </select>
-                    </div>
+                        <!-- Currency Dropdown -->
+                        <div style="margin-bottom:15px;">
+                            <label for="currency" style="font-weight:bold; display:block; margin-bottom:5px; color:var(--primary)">
+                                Asset Currency
+                            </label>
+                            <select name="currency" id="currency" class="search"
+                                    style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;
+                                        color:var(--primary-2); font-weight: bold;" required>
+                                <option value="" disabled selected>Select Currency</option>
+                                <option value="USD">USD</option>
+                                <option value="ZWG">ZWG</option>
+                            </select>
+                        </div>
 
-                    <!-- Apply Button -->
-                    <button id="applyBtn" class="my-btn" style="width:100%; padding:10px 0; font-size:12pt;">Apply</button>
+                        <!-- Tenor Number Input -->
+                        <div style="margin-bottom:15px;">
+                            <label for="tenor" style="font-weight:bold; display:block; margin-bottom:5px; color:var(--primary)">
+                                Tenor (Months)
+                            </label>
+                            <input name="tenor" id="tenor" type="number" min="1" max="360" step="1"
+                                placeholder="Enter tenor in months" class="search"
+                                style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;
+                                        color:var(--primary-2); font-weight: bold;" required>
+                        </div>
+
+                        <!-- Source of Funding Dropdown -->
+                        <div style="margin-bottom:20px;">
+                            <label for="source" style="font-weight:bold; display:block; margin-bottom:5px; color:var(--primary)">
+                                Source of Funding
+                            </label>
+                            <select name="source" id="source" class="search"
+                                    style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;
+                                        color:var(--primary-2); font-weight: bold;" required>
+                                <option value="" disabled selected>Select Source</option>
+                                <option value="Line Of Credit">Line Of Credit</option>
+                                <option value="Demand Deposits">Demand Deposits</option>
+                                <option value="Treasury Deposits">Treasury Deposits</option>
+                            </select>
+                        </div>
+
+                        <!-- Apply Button -->
+                        <button type="submit" class="my-btn" style="width:100%; padding:10px 0; font-size:12pt;">
+                            Apply
+                        </button>
+                    </form>
 
                     <!-- Result Section -->
-                    <div id="result" style="margin-top:20px; padding:12px; background-color:var(--accent); border-radius:12px; font-weight:bold; text-align:center; color:var(--dark); box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);">
+                    <div id="result"
+                        style="margin-top:20px; padding:12px; background-color:var(--accent); border-radius:12px; 
+                                font-weight:bold; text-align:center; color:var(--dark); 
+                                box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);">
                         Result will appear here
                     </div>
                 </div>
+
 
 
             </div>

@@ -368,6 +368,16 @@ def landingpage():
         print("❌ Error in landingpage:", e)
         return f"Database error: {e}", 500
 
+@app.route("/apply", methods=["POST"])
+def apply():
+    currency = request.form.get("currency")
+    tenor = request.form.get("tenor")
+    source = request.form.get("source")
+
+    # Do something with inputs (save, process, calculate, etc.)
+    result = f"Currency: {currency}, Tenor: {tenor} months, Source: {source}"
+
+    return render_template("form.html", result=result)
 
 if __name__ == '__main__':
     app.run(debug=True)
