@@ -450,23 +450,37 @@ document.getElementById("assetForm").addEventListener("submit", function(event) 
     return;
   }
 
-  // Find the column that matches the tenor
-  const headerRow = table.rows[0]; // table header
-  let targetValue = null;
-  for (let j = 1; j < headerRow.cells.length; j++) {
-    const colName = headerRow.cells[j].innerText.trim(); // e.g., "1m-2m", "2m-3m"
-    
-    // Extract min and max month from column
-    const match = colName.match(/(\d+)m-(\d+)m/);
+    // Find the column that matches the tenor
+    const headerRow = table.rows[0]; // table header
+    let targetValue = null;
+
+    for (let j = 1; j < headerRow.cells.length; j++) {
+    const colName = headerRow.cells[j].innerText.trim();
+
+    let min = 0, max = Infinity;
+
+    // Match month range e.g., "1m-2m"
+    let match = colName.match(/(\d+)m-(\d+)m/);
     if (match) {
-      const minMonth = parseInt(match[1]);
-      const maxMonth = parseInt(match[2]);
-      if (tenor >= minMonth && tenor < maxMonth) {
+        min = parseInt(match[1]);
+        max = parseInt(match[2]);
+    } else {
+        // Match year range e.g., "1y-2y", "3y-5y"
+        match = colName.match(/(\d+)y-(\d+)y/);
+        if (match) {
+        min = parseInt(match[1]) * 12; // convert years to months
+        max = parseInt(match[2]) * 12;
+        } else if (colName.includes(">5y")) {
+        min = 60; // 5 years in months
+        max = Infinity;
+        }
+    }
+
+    if (tenor >= min && tenor < max) {
         targetValue = targetRow.cells[j].innerText.trim();
         break;
-      }
     }
-  }
+    }
 
   if (targetValue) {
     document.getElementById("result").textContent = `Value: ${targetValue}`;
