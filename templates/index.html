@@ -459,24 +459,31 @@ document.getElementById("assetForm").addEventListener("submit", function(event) 
 
     let min = 0, max = Infinity;
 
-    // Match month range e.g., "1m-2m"
-    let match = colName.match(/(\d+)m-(\d+)m/);
+    let match = null;
+
+    // Check for year range first (important for tenors >= 12 months)
+    match = colName.match(/^(\d+)y-(\d+)y$/);
     if (match) {
-        min = parseInt(match[1]);
-        max = parseInt(match[2]);
-    } else {
-        // Match year range e.g., "1y-2y", "3y-5y"
-        match = colName.match(/(\d+)y-(\d+)y/);
-        if (match) {
-        min = parseInt(match[1]) * 12; // convert years to months
-        max = parseInt(match[2]) * 12;
-        } else if (colName.includes(">5y")) {
+        min = parseInt(match[1], 10) * 12; // convert years to months
+        max = parseInt(match[2], 10) * 12;
+    } else if (colName.includes('>5y')) {
         min = 60; // 5 years in months
         max = Infinity;
+    } else {
+        // Check for month range
+        match = colName.match(/^(\d+)m-(\d+)m$/);
+        if (match) {
+            min = parseInt(match[1], 10);
+            max = parseInt(match[2], 10);
+        } else {
+            // Column doesn't match any expected pattern, skip
+            continue;
         }
     }
 
-    if (tenor >= min && tenor < max) {
+    // Now compare tenor (make sure it's a number) with min/max
+    const tenorMonths = parseInt(tenor, 10);
+    if (tenorMonths >= min && tenorMonths < max) {
         targetValue = targetRow.cells[j].innerText.trim();
         break;
     }
