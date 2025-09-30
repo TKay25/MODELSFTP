@@ -403,20 +403,78 @@
   });
 </script>
 <script>
-  document.getElementById("assetForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // stop form from refreshing page
+document.getElementById("assetForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // prevent page reload
 
-    // Get input values
-    const currency = document.getElementById("currency").value;
-    const tenor = document.getElementById("tenor").value;
-    const source = document.getElementById("source").value;
+  // Get input values
+  const currency = document.getElementById("currency").value;
+  const tenor = parseInt(document.getElementById("tenor").value); // in months
+  const source = document.getElementById("source").value;
 
-    // Format result
-    const resultText = `Currency: ${currency} | Tenor: ${tenor} months | Source: ${source}`;
+  // Decide which table
+  let tableId = null;
+  if (currency === "USD") {
+    tableId = "usdTable";
+  } else if (currency === "ZWG") {
+    tableId = "zwgTable";
+  }
 
-    // Show inside the result div
-    document.getElementById("result").textContent = resultText;
-  });
+  if (!tableId) {
+    alert("No table available for selected currency");
+    return;
+  }
+
+  const table = document.getElementById(tableId);
+
+  // Lookup row based on source of funding
+  let lookupRowName = null;
+  if (source.toLowerCase() === "line of credit" || source.toLowerCase() === "lines of credit") {
+    lookupRowName = "Lines of Credit Curve Offer Rate";
+  } else {
+    alert("Lookup not defined for this source");
+    return;
+  }
+
+  let targetRow = null;
+  // Skip the header row (index 0)
+  for (let i = 1; i < table.rows.length; i++) {
+    const row = table.rows[i];
+    if (row.cells[0].innerText.trim() === lookupRowName) {
+      targetRow = row;
+      break;
+    }
+  }
+
+  if (!targetRow) {
+    alert("Row not found in table");
+    return;
+  }
+
+  // Find the column that matches the tenor
+  const headerRow = table.rows[0]; // table header
+  let targetValue = null;
+  for (let j = 1; j < headerRow.cells.length; j++) {
+    const colName = headerRow.cells[j].innerText.trim(); // e.g., "1m-2m", "2m-3m"
+    
+    // Extract min and max month from column
+    const match = colName.match(/(\d+)m-(\d+)m/);
+    if (match) {
+      const minMonth = parseInt(match[1]);
+      const maxMonth = parseInt(match[2]);
+      if (tenor >= minMonth && tenor < maxMonth) {
+        targetValue = targetRow.cells[j].innerText.trim();
+        break;
+      }
+    }
+  }
+
+  if (targetValue) {
+    document.getElementById("result").textContent = `Value: ${targetValue}`;
+  } else {
+    document.getElementById("result").textContent = "No matching column found for given tenor";
+  }
+});
 </script>
+
 </body>
 </html>
