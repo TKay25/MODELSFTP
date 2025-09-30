@@ -311,25 +311,45 @@
                                 box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);">
                         Result will appear here
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="flex">
-                        <label for="ftp-option" style="font-weight:600; color:var(--primary);">
-                        Generate FTP Charge Schedule?
-                        </label>
-                        <select id="ftp-option" class="search">
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                        </select>
+                    <div class="card">
+                        <div class="flex">
+                            <label for="ftp-option" style="font-weight:600; color:var(--primary);">
+                            Generate FTP Charge Schedule?
+                            </label>
+                            <select id="ftp-option" class="search">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                            </select>
+                        </div>
+
+                        <!-- Hidden section -->
+                        <div class="flex" id="ftp-schedule-section" style="margin-top:16px; display:none; flex-direction:column; gap:14px;">
+
+                            <!-- Row 1: Asset Disbursement Date -->
+                            <div class="flex" style="gap:10px; align-items:center;">
+                                <label for="asset-date" style="font-weight:600; color:var(--primary); min-width:180px;">
+                                Asset Disbursement Date
+                                </label>
+                                <input type="date" id="asset-date" class="search">
+                            </div>
+
+                            <!-- Row 2: Asset Amount -->
+                            <div class="flex" style="gap:10px; align-items:center;">
+                                <label for="asset-amount" style="font-weight:600; color:var(--primary); min-width:180px;">
+                                Asset Amount
+                                </label>
+                                <input type="number" id="asset-amount" class="search" placeholder="Enter amount">
+                            </div>
+
+                            <!-- Button -->
+                            <div>
+                                <button class="my-btn">Generate Schedule</button>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- Hidden section -->
-                    <div id="ftp-schedule-section" style="margin-top:16px; display:none;">
-                        <label for="asset-date" style="font-weight:600; color:var(--primary);">Asset Disbursement Date</label><br>
-                        <input type="date" id="asset-date" class="search" style="margin-top:6px;"><br><br>
-                        <button class="my-btn">Generate Schedule</button>
-                    </div>
                 </div>
 
 
