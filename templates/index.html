@@ -73,6 +73,12 @@
     .search{padding:8px 10px; border-radius:8px; border:1px solid #ddd}
     .file-display {margin-top: 14px;display: flex;flex-wrap: wrap;gap: 8px;}
     .file-pill {background: var(--accent);color: var(--dark);padding: 6px 12px;border-radius: 999px;font-size: 13px;font-weight: 600;box-shadow: 0 2px 4px rgba(0,0,0,0.06);}
+    
+    #tenor::placeholder {
+        color: var(--primary-2);
+        opacity: 1; /* ensures full color visibility */
+        font-weight: bold; /* optional */
+    }
     /* responsive */
     @media (max-width:900px){.sidebar{display:none}.main{padding:12px}}
   </style>
@@ -265,7 +271,7 @@
                             </label>
                             <select name="currency" id="currency" class="search"
                                     style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;
-                                        color:var(--primary-2); font-weight: bold;" required>
+                                        color:var(--primary-2); font-weight: bold;font-size: 12px;" required>
                                 <option value="" disabled selected>Select Currency</option>
                                 <option value="USD">USD</option>
                                 <option value="ZWG">ZWG</option>
@@ -280,7 +286,7 @@
                             <input name="tenor" id="tenor" type="number" min="1" max="360" step="1"
                                 placeholder="Enter tenor in months" class="search"
                                 style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;
-                                        color:var(--primary-2); font-weight: bold;" required>
+                                        color:var(--primary-2); font-weight: bold;font-size: 12px;" required>
                         </div>
 
                         <!-- Source of Funding Dropdown -->
@@ -290,7 +296,7 @@
                             </label>
                             <select name="source" id="source" class="search"
                                     style="width:100%; border:2px solid var(--primary); border-radius:12px; padding:6px 10px;
-                                        color:var(--primary-2); font-weight: bold;" required>
+                                        color:var(--primary-2); font-weight: bold;font-size: 12px;" required>
                                 <option value="" disabled selected>Select Source</option>
                                 <option value="Line Of Credit">Line Of Credit</option>
                                 <option value="Demand Deposits">Demand Deposits</option>
