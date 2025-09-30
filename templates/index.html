@@ -313,6 +313,21 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <label for="ftp-option" style="font-weight:600; color:var(--primary);">Generate FTP Charge Schedule?</label>
+                    <select id="ftp-option" class="search">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+
+                    <!-- Hidden section -->
+                    <div id="ftp-schedule-section" style="margin-top:16px; display:none;">
+                        <label for="asset-date" style="font-weight:600; color:var(--primary);">Asset Disbursement Date</label><br>
+                        <input type="date" id="asset-date" class="search" style="margin-top:6px;"><br><br>
+                        <button class="my-btn">Generate Schedule</button>
+                    </div>
+                </div>
+
 
 
             </div>
@@ -343,6 +358,18 @@
         
         output.appendChild(div);
       }
+    }
+  });
+</script>
+<script>
+  const ftpOption = document.getElementById("ftp-option");
+  const ftpSection = document.getElementById("ftp-schedule-section");
+
+  ftpOption.addEventListener("change", function() {
+    if (this.value === "yes") {
+      ftpSection.style.display = "block";
+    } else {
+      ftpSection.style.display = "none";
     }
   });
 </script>
