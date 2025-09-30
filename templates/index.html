@@ -526,6 +526,35 @@ document.getElementById("assetForm").addEventListener("submit", function(event) 
   }
 });
 </script>
+<script>
+const currencySelect = document.getElementById("currency");
+const sourceSelect = document.getElementById("source");
+
+// Store the original options to restore later
+const originalSourceOptions = Array.from(sourceSelect.options).map(opt => ({ value: opt.value, text: opt.text }));
+
+currencySelect.addEventListener("change", function() {
+    const selectedCurrency = this.value;
+
+    // Clear current options
+    sourceSelect.innerHTML = "";
+
+    // Re-add options based on currency
+    originalSourceOptions.forEach(opt => {
+        if (selectedCurrency === "ZWG" && opt.value.toLowerCase() === "line of credit") {
+            // Skip Line of Credit for ZWG
+            return;
+        }
+        sourceSelect.add(new Option(opt.text, opt.value));
+    });
+
+    // Optional: reset to default placeholder
+    sourceSelect.selectedIndex = 0;
+});
+
+
+
+</script>
 
 </body>
 </html>
