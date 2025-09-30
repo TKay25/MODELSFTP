@@ -402,5 +402,21 @@
     }
   });
 </script>
+<script>
+  document.getElementById("assetForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // stop form from refreshing page
+
+    // Get input values
+    const currency = document.getElementById("currency").value;
+    const tenor = document.getElementById("tenor").value;
+    const source = document.getElementById("source").value;
+
+    // Format result
+    const resultText = `Currency: ${currency} | Tenor: ${tenor} months | Source: ${source}`;
+
+    // Show inside the result div
+    document.getElementById("result").textContent = resultText;
+  });
+</script>
 </body>
 </html>
