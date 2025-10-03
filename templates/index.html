@@ -130,15 +130,18 @@
                 <div class="panel panel-1">
                     <div class="flex" style="justify-content:space-between">
                         <div class="controls">
-                            <a href="javascript:void(0)" class="my-btn" onclick="document.getElementById('fileInput').click();">Upload Required File</a>
+                            <a href="javascript:void(0)" class="my-btn" onclick="document.getElementById('fileInput').click();">
+                            Upload Required File
+                            </a>
                             <input type="file" id="fileInput" style="display: none;" />
 
                             <a class="my-btn" data-bs-toggle="modal" data-bs-target="#yieldCurvesModal">
-                                Yield Curves
+                            Yield Curves
                             </a>
                             <a class="my-btn">Export Workbook</a>
                         </div>
                     </div>
+
                     <div id="fileNameDisplay" class="file-display"></div>
 
 
@@ -390,6 +393,7 @@
 
     </main>
   </div>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script>
     // Make all table cells editable
     document.querySelectorAll('.table-responsive table td, .table-responsive table th')
@@ -555,6 +559,35 @@ currencySelect.addEventListener("change", function() {
 
 
 </script>
+<script>
+document.getElementById('fileInput').addEventListener('change', handleFile, false);
 
+function handleFile(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    const data = evt.target.result;
+
+    // Read Excel file
+    const workbook = XLSX.read(data, { type: 'binary' });
+
+    // Check if the sheet "ZWG Assets" exists
+    const sheetName = "ZWG Assets";
+    if (workbook.SheetNames.includes(sheetName)) {
+      const sheet = workbook.Sheets[sheetName];
+
+      // Convert sheet to JSON
+      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+      console.log("ZWG Assets Sheet Data:", jsonData);
+    } else {
+      console.error(`Sheet "${sheetName}" not found in workbook`);
+    }
+  };
+
+  reader.readAsBinaryString(file);
+}
+</script>
 </body>
 </html>

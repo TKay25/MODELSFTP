@@ -369,6 +369,7 @@ def landingpage():
             index=False,
             table_id="usdTable"
         )
+        
         return render_template("index.html", zwg_table=zwg_html, usd_table=usd_html)
 
     except Exception as e:
