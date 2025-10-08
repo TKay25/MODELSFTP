@@ -477,7 +477,7 @@
     reader.readAsBinaryString(file);
   }
 
-  // Build searchable tables inside modal containers
+  // Build searchable tables inside modal containers (lightweight + search all)
   function createTable(data, containerId, searchId) {
     const container = document.getElementById(containerId);
     if (!data || !data.length) {
@@ -485,26 +485,62 @@
       return;
     }
 
-    let html = "<table class='table'><thead><tr>";
-    data[0].forEach(h => (html += `<th>${h || ''}</th>`));
-    html += "</tr></thead><tbody>";
-    for (let i = 1; i < data.length; i++) {
-      html += "<tr>";
-      data[i].forEach(c => (html += `<td>${c || ''}</td>`));
-      html += "</tr>";
-    }
-    html += "</tbody></table>";
-    container.innerHTML = html;
+    const headers = data[0];
+    const rows = data.slice(1);
+    const chunkSize = 50;
+    let currentIndex = 0;
+    let filteredRows = rows.slice(); // initially show all rows
 
-    // Add search filter
+    container.innerHTML = `
+      <table class='table'>
+        <thead><tr>${headers.map(h => `<th>${h || ''}</th>`).join('')}</tr></thead>
+        <tbody></tbody>
+      </table>
+      <div style='text-align:center; margin-top:10px'>
+        <button class='my-btn' id='loadMoreBtn-${containerId}'>Load More</button>
+      </div>
+    `;
+
+    const tbody = container.querySelector('tbody');
+    const loadBtn = document.getElementById(`loadMoreBtn-${containerId}`);
     const searchInput = document.getElementById(searchId);
-    searchInput.addEventListener('input', () => {
-      const filter = searchInput.value.toLowerCase();
-      const rows = container.querySelectorAll('tbody tr');
-      rows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(filter) ? '' : 'none';
+
+    function renderChunk() {
+      const slice = filteredRows.slice(currentIndex, currentIndex + chunkSize);
+      const frag = document.createDocumentFragment();
+
+      slice.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell || '';
+          tr.appendChild(td);
+        });
+        frag.appendChild(tr);
       });
+
+      tbody.appendChild(frag);
+      currentIndex += chunkSize;
+      loadBtn.style.display = currentIndex >= filteredRows.length ? 'none' : '';
+    }
+
+    function resetTable() {
+      tbody.innerHTML = '';
+      currentIndex = 0;
+      renderChunk();
+    }
+
+    // Initial render
+    renderChunk();
+
+    // Load more rows on button click
+    loadBtn.addEventListener('click', renderChunk);
+
+    // Search across all rows (even unloaded)
+    searchInput.addEventListener('input', () => {
+      const term = searchInput.value.toLowerCase();
+      filteredRows = rows.filter(r => r.join(' ').toLowerCase().includes(term));
+      resetTable();
     });
   }
 
@@ -516,8 +552,8 @@
     }
     XLSX.writeFile(workbookCache, 'exported_workbook.xlsx');
   });
-
 </script>
+
 
 <script>
   const ftpOption = document.getElementById("ftp-option");
