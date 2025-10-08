@@ -155,7 +155,7 @@
                         <div class="modal-dialog modal-xl modal-dialog-scrollable">
                             <div class="modal-content" style="border-radius:14px;">
                             <div class="modal-header" style="background:var(--primary);color:white;">
-                                <h5 class="modal-title">ZWG Assets</h5>
+                                <h5 class="modal-title">ZWG ASSETS</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -710,13 +710,13 @@ function handleFile(e) {
     const workbook = XLSX.read(data, { type: 'binary' });
 
     // Check if the sheet "ZWG Assets" exists
-    const sheetName = "ZWG Assets";
+    const sheetName = "ZWG ASSETS";
     if (workbook.SheetNames.includes(sheetName)) {
       const sheet = workbook.Sheets[sheetName];
 
       // Convert sheet to JSON
       const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-      console.log("ZWG Assets Sheet Data:", jsonData);
+      console.log("ZWG ASSETS Sheet Data:", jsonData);
     } else {
       console.error(`Sheet "${sheetName}" not found in workbook`);
     }
