@@ -440,21 +440,94 @@
         });
 </script>
 <script>
-  document.getElementById("fileInput").addEventListener("change", function () {
-    let output = document.getElementById("fileNameDisplay");
-    output.innerHTML = ""; // clear previous
-    
-    if (this.files.length > 0) {
-      for (let i = 0; i < this.files.length; i++) {
-        let file = this.files[i];
-        
-        let div = document.createElement("div");
-        div.className = "file-pill";
-        div.textContent = file.name;
-        
-        output.appendChild(div);
-      }
+  const fileInput = document.getElementById('fileInput');
+  const fileDisplay = document.getElementById('fileNameDisplay');
+  const buttonsContainer = document.getElementById('buttonsContainer');
+  let workbookCache = null;
+
+  // Open/close modal logic
+  document.querySelectorAll('[data-modal]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById(btn.dataset.modal).classList.add('active');
+    });
+  });
+  document.querySelectorAll('.close-btn').forEach(btn => {
+    btn.addEventListener('click', () => btn.closest('.modal').classList.remove('active'));
+  });
+  window.addEventListener('click', e => {
+    if (e.target.classList.contains('modal')) e.target.classList.remove('active');
+  });
+
+  // Handle file upload
+  fileInput.addEventListener('change', handleFile, false);
+  function handleFile(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    fileDisplay.innerHTML = `<span class="file-pill">${file.name}</span>`;
+    const reader = new FileReader();
+
+    reader.onload = function(evt) {
+      const data = evt.target.result;
+      const workbook = XLSX.read(data, { type: 'binary' });
+      workbookCache = workbook;
+      buttonsContainer.style.display = 'flex';
+
+      const sheetNames = workbook.SheetNames;
+      const targets = [
+        { id: 'tableContainer1', search: 'search1' },
+        { id: 'tableContainer2', search: 'search2' },
+        { id: 'tableContainer3', search: 'search3' },
+        { id: 'tableContainer4', search: 'search4' }
+      ];
+
+      sheetNames.slice(0, 4).forEach((sheetName, i) => {
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        createTable(jsonData, targets[i].id, targets[i].search);
+      });
+    };
+    reader.readAsBinaryString(file);
+  }
+
+  // Build searchable table
+  function createTable(data, containerId, searchId) {
+    const container = document.getElementById(containerId);
+    if (!data || !data.length) {
+      container.innerHTML = "<div class='muted'>No data found.</div>";
+      return;
     }
+
+    let html = "<table class='table'><thead><tr>";
+    data[0].forEach(h => (html += `<th>${h || ''}</th>`));
+    html += "</tr></thead><tbody>";
+    for (let i = 1; i < data.length; i++) {
+      html += "<tr>";
+      data[i].forEach(c => (html += `<td>${c || ''}</td>`));
+      html += "</tr>";
+    }
+    html += "</tbody></table>";
+    container.innerHTML = html;
+
+    // Search logic
+    const searchInput = document.getElementById(searchId);
+    searchInput.addEventListener('input', () => {
+      const filter = searchInput.value.toLowerCase();
+      const rows = container.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+  }
+
+  // Export Workbook
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    if (!workbookCache) {
+      alert("Please upload a workbook first.");
+      return;
+    }
+    XLSX.writeFile(workbookCache, 'exported_workbook.xlsx');
   });
 </script>
 <script>
