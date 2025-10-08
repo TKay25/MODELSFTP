@@ -144,43 +144,42 @@
 
                     <div id="fileNameDisplay" class="file-display"></div>
                     <div id="buttonsContainer" class="file-display" style="display:none;">
-                        <button class="my-btn" data-modal="modal1">ZWG Assets</button>
-                        <button class="my-btn" data-modal="modal2">Sheet 2</button>
-                        <button class="my-btn" data-modal="modal3">Sheet 3</button>
-                        <button class="my-btn" data-modal="modal4">Sheet 4</button>
+                        <a class="my-btn" data-bs-toggle="modal" data-bs-target="#zwgModal">ZWG Assets</a>
+                        <a class="my-btn" data-bs-toggle="modal" data-bs-target="#sheet2Modal">Sheet 2</a>
+                        <a class="my-btn" data-bs-toggle="modal" data-bs-target="#sheet3Modal">Sheet 3</a>
+                        <a class="my-btn" data-bs-toggle="modal" data-bs-target="#sheet4Modal">Sheet 4</a>
                     </div>
 
-                    <!-- 4 MODALS -->
-                    <div id="modal1" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header"><h3>ZWG Assets</h3><button class="close-btn">&times;</button></div>
-                        <input type="text" id="search1" class="search-input" placeholder="Search ZWG Assets...">
-                        <div id="tableContainer1"></div>
-                    </div>
-                    </div>
-
-                    <div id="modal2" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header"><h3>Sheet 2</h3><button class="close-btn">&times;</button></div>
-                        <input type="text" id="search2" class="search-input" placeholder="Search Sheet 2...">
-                        <div id="tableContainer2"></div>
-                    </div>
-                    </div>
-
-                    <div id="modal3" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header"><h3>Sheet 3</h3><button class="close-btn">&times;</button></div>
-                        <input type="text" id="search3" class="search-input" placeholder="Search Sheet 3...">
-                        <div id="tableContainer3"></div>
-                    </div>
+                    <!-- ZWG Modal -->
+                    <div class="modal fade" id="zwgModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content" style="border-radius:14px;">
+                            <div class="modal-header" style="background:var(--primary);color:white;">
+                                <h5 class="modal-title">ZWG Assets</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="text" id="searchZWG" class="search" placeholder="Search ZWG Assets..." />
+                                <div id="tableContainerZWG" class="table-responsive"></div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div id="modal4" class="modal">
-                    <div class="modal-content">
-                        <div class="modal-header"><h3>Sheet 4</h3><button class="close-btn">&times;</button></div>
-                        <input type="text" id="search4" class="search-input" placeholder="Search Sheet 4...">
-                        <div id="tableContainer4"></div>
-                    </div>
+                        <!-- Sheet 2 -->
+                    <div class="modal fade" id="sheet2Modal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content" style="border-radius:14px;">
+                            <div class="modal-header" style="background:var(--primary);color:white;">
+                                <h5 class="modal-title">Sheet 2</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="text" id="search2" class="search" placeholder="Search Sheet 2..." />
+                                <div id="tableContainer2" class="table-responsive"></div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="parameter-inputs" style="margin: 2rem 0; padding:20px; background:var(--card); border-radius:12px; max-width:100%; box-shadow:0 6px 15px rgba(0,0,0,0.05); border:1px solid rgba(0,0,0,0.08);">
@@ -445,19 +444,6 @@
   const buttonsContainer = document.getElementById('buttonsContainer');
   let workbookCache = null;
 
-  // Open/close modal logic
-  document.querySelectorAll('[data-modal]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.getElementById(btn.dataset.modal).classList.add('active');
-    });
-  });
-  document.querySelectorAll('.close-btn').forEach(btn => {
-    btn.addEventListener('click', () => btn.closest('.modal').classList.remove('active'));
-  });
-  window.addEventListener('click', e => {
-    if (e.target.classList.contains('modal')) e.target.classList.remove('active');
-  });
-
   // Handle file upload
   fileInput.addEventListener('change', handleFile, false);
   function handleFile(e) {
@@ -475,12 +461,13 @@
 
       const sheetNames = workbook.SheetNames;
       const targets = [
-        { id: 'tableContainer1', search: 'search1' },
+        { id: 'tableContainerZWG', search: 'searchZWG' },
         { id: 'tableContainer2', search: 'search2' },
         { id: 'tableContainer3', search: 'search3' },
         { id: 'tableContainer4', search: 'search4' }
       ];
 
+      // Fill up to 4 modals with sheets
       sheetNames.slice(0, 4).forEach((sheetName, i) => {
         const sheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
@@ -490,7 +477,7 @@
     reader.readAsBinaryString(file);
   }
 
-  // Build searchable table
+  // Build searchable tables inside modal containers
   function createTable(data, containerId, searchId) {
     const container = document.getElementById(containerId);
     if (!data || !data.length) {
@@ -509,7 +496,7 @@
     html += "</tbody></table>";
     container.innerHTML = html;
 
-    // Search logic
+    // Add search filter
     const searchInput = document.getElementById(searchId);
     searchInput.addEventListener('input', () => {
       const filter = searchInput.value.toLowerCase();
@@ -522,14 +509,16 @@
   }
 
   // Export Workbook
-  document.getElementById('exportBtn').addEventListener('click', () => {
+  document.getElementById('exportBtn')?.addEventListener('click', () => {
     if (!workbookCache) {
       alert("Please upload a workbook first.");
       return;
     }
     XLSX.writeFile(workbookCache, 'exported_workbook.xlsx');
   });
+
 </script>
+
 <script>
   const ftpOption = document.getElementById("ftp-option");
   const ftpSection = document.getElementById("ftp-schedule-section");
